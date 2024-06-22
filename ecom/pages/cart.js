@@ -9,14 +9,6 @@ import Table from '@/components/Table';
 import Input from '@/components/Input';
 import { useRouter } from 'next/router';
 
-
-import { createGlobalStyle } from 'styled-components';
-
-
-
-
-
-
 const ColumnWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
@@ -116,12 +108,12 @@ const OrderInfo = styled.div`
     margin-bottom: 10px;
   }
 
-  /* Add your field selector and height here */
   input[type="text"],
   textarea {
-    height: 40px; /* Adjust the value as needed */
+    height: 40px;
   }
 `;
+
 const CartPage = () => {
   const { cartProducts, addProduct, removeProduct, clearCart, total } = useContext(CartContext);
   const [products, setProducts] = useState([]);
@@ -172,29 +164,11 @@ const CartPage = () => {
       // Redirect to Stripe checkout URL
       window.location = response.data.url;
     } else {
-      // Redirect to the success page
-      router.push('/cart?status=success');
+      // Redirect to Farm Friend website
       clearCart(); // Clear the cart after successful payment
+      window.location.href = 'https://farm-friend-7bbz.vercel.app/';
     }
   }
-
-  const isSuccess = router.query.status === 'success';
-
-if (isSuccess) {
-  return (
-    <>
-      <Header />
-      <Center>
-        <ColumnWrapper>
-          <Box>
-            <h1>Thanks for your order!</h1>
-            <p>We will email you when your order will be sent</p>
-          </Box>
-        </ColumnWrapper>
-      </Center>
-    </>
-  );
-}
 
   return (
     <>
@@ -204,7 +178,7 @@ if (isSuccess) {
           <Box>
             <h2>Cart</h2>
 
-            {!cartProducts?.length && !isSuccess && !loading && <div>Your cart is empty</div>}
+            {!cartProducts?.length && !loading && <div>Your cart is empty</div>}
             {products?.length > 0 && (
               <Table>
                 <thead>
@@ -249,62 +223,61 @@ if (isSuccess) {
             <Box>
               <h2>Order Information</h2>
               <OrderInfo>
-  <div>
-    <Input
-      type="text"
-      placeholder="Name"
-      value={name}
-      name="name"
-      onChange={(ev) => setName(ev.target.value)}
-    />
-  </div>
-  <div>
-    <Input
-      type="text"
-      placeholder="Email"
-      value={email}
-      name="email"
-      onChange={(ev) => setEmail(ev.target.value)}
-    />
-  </div>
-  <div>
-    <CityHolder>
-      <Input
-        type="text"
-        placeholder="City"
-        value={city}
-        name="city"
-        onChange={(ev) => setCity(ev.target.value)}
-      />
-      <Input
-        type="text"
-        placeholder="Pin Code"
-        value={pincode}
-        name="pincode"
-        onChange={(ev) => setPinCode(ev.target.value)}
-      />
-    </CityHolder>
-  </div>
-  <div>
-    <Input
-      type="text"
-      placeholder="Street Address"
-      value={streetAddress}
-      name="streetAddress"
-      onChange={(ev) => setStreetAddress(ev.target.value)}
-    />
-  </div>
-  <div>
-    <Input
-      type="text"
-      placeholder="Country"
-      value={country}
-      name="country"
-      onChange={(ev) => setCountry(ev.target.value)}
-    />
-  </div>
-</OrderInfo>
-
+                <div>
+                  <Input
+                    type="text"
+                    placeholder="Name"
+                    value={name}
+                    name="name"
+                    onChange={(ev) => setName(ev.target.value)}
+                  />
+                </div>
+                <div>
+                  <Input
+                    type="text"
+                    placeholder="Email"
+                    value={email}
+                    name="email"
+                    onChange={(ev) => setEmail(ev.target.value)}
+                  />
+                </div>
+                <div>
+                  <CityHolder>
+                    <Input
+                      type="text"
+                      placeholder="City"
+                      value={city}
+                      name="city"
+                      onChange={(ev) => setCity(ev.target.value)}
+                    />
+                    <Input
+                      type="text"
+                      placeholder="Pin Code"
+                      value={pincode}
+                      name="pincode"
+                      onChange={(ev) => setPinCode(ev.target.value)}
+                    />
+                  </CityHolder>
+                </div>
+                <div>
+                  <Input
+                    type="text"
+                    placeholder="Street Address"
+                    value={streetAddress}
+                    name="streetAddress"
+                    onChange={(ev) => setStreetAddress(ev.target.value)}
+                  />
+                </div>
+                <div>
+                  <Input
+                    type="text"
+                    placeholder="Country"
+                    value={country}
+                    name="country"
+                    onChange={(ev) => setCountry(ev.target.value)}
+                  />
+                </div>
+              </OrderInfo>
               <Button black block onClick={goToPayment} primary>
                 Continue to payment
               </Button>
